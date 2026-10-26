@@ -23,6 +23,15 @@ Jika Generate gagal dan log berisi `BrowserType.launch` atau `libatk-1.0.so.0: c
    - `!python -m playwright install chromium`
 3. Jalankan ulang browser preflight sampai status `browser-check OK`, lalu coba Generate lagi.
 
+## Troubleshooting FFmpeg (`exit status 187`)
+- Notebook sekarang menyimpan stderr FFmpeg pada detail error (JSON di panel `Detail storyboard / status`), termasuk command yang dijalankan dan fallback codec.
+- Jika `libx264` gagal, renderer otomatis mencoba fallback `mpeg4` untuk kompatibilitas MP4.
+- Jika tetap gagal:
+  1. Cek RAM dan disk Colab (cell runtime info). Render 1080p portrait 30fps lebih berat.
+  2. Coba dulu `720p` + `Slow/Medium` FPS untuk verifikasi pipeline.
+  3. Jalankan `Generate Preview` dulu; mode ini hanya menghasilkan PNG (tidak merender MP4).
+  4. Pastikan output folder `/content/website_video_generator/output` masih punya ruang kosong.
+
 ## Batasan MVP
 - Capture berbasis screenshot pada beberapa posisi scroll, bukan perekaman scroll kontinu.
 - Website login, CAPTCHA, bot protection, atau asset yang memerlukan autentikasi mungkin tidak dapat diproses.
