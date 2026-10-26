@@ -5,8 +5,23 @@ Notebook untuk membuat video showcase dari website publik menggunakan Playwright
 ## Cara menjalankan
 1. Pilih Runtime → Change runtime type → GPU bila tersedia. CPU tetap didukung.
 2. Jalankan semua cell dari atas ke bawah.
-3. Isi URL website publik pada UI Gradio.
-4. Gunakan Preview terlebih dahulu, lalu Render Video.
+3. Pastikan cell setup menampilkan status `Chromium install status: OK` dan `browser-check OK` sebelum lanjut.
+4. Isi URL website publik pada UI Gradio.
+5. Gunakan Preview terlebih dahulu, lalu Render Video.
+
+## Catatan startup Gradio
+- Pesan `Mengimpor Gradio...` hanya proses import package, bukan proses render UI.
+- Notebook sekarang memakai `share=False` sebagai default untuk mengurangi kesan hang saat startup lokal.
+- Jika butuh link publik, ubah `demo.launch(..., share=False, ...)` menjadi `share=True`.
+- Startup menampilkan log `Gradio sedang memulai server lokal...` agar jelas proses masih berjalan.
+
+## Troubleshooting Chromium (`libatk-1.0.so.0`)
+Jika Generate gagal dan log berisi `BrowserType.launch` atau `libatk-1.0.so.0: cannot open shared object file`:
+1. Jalankan ulang cell setup (sudah mencoba `playwright install --with-deps chromium` lebih dulu).
+2. Jika runtime gagal memasang dependency otomatis, jalankan manual:
+   - `!apt-get update && apt-get install -y libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1 libasound2 libnss3 libnspr4 libgtk-3-0`
+   - `!python -m playwright install chromium`
+3. Jalankan ulang browser preflight sampai status `browser-check OK`, lalu coba Generate lagi.
 
 ## Batasan MVP
 - Capture berbasis screenshot pada beberapa posisi scroll, bukan perekaman scroll kontinu.
